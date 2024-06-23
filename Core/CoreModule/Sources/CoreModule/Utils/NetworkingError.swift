@@ -14,13 +14,13 @@ public struct NetworkingError: Error {
     let networkData: Data?
     let baseError: MoyaError
 
-    init(_ response: Response) {
+    public init(_ response: Response) {
         self.baseError = MoyaError.statusCode(response)
         self.httpResponse = response.response
         self.networkData = response.data
     }
 
-    func getLocalizedDescription() -> String {
+    public func getLocalizedDescription() -> String {
 
        return self.baseError.localizedDescription
     }

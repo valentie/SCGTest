@@ -7,18 +7,16 @@
 
 import Foundation
 import Combine
+import CoreModule
 
 class ListNewsViewModel: ObservableObject {
     
     var newsUseCases = NewsUseCases(repo: NewsRepositoryImpl(dataSource: NewsDataImpl()))
     var cancellables = Set<AnyCancellable>()
     
-    @Published var state: ViewState = .none
+    @Published var state: CoreModule.ViewState = .none
     @Published var news: [NewsModel] = .init()
     @Published var page: Int = 0
-//    @Published var title = "Pet Grooming"
-//    @Published var description = "A day dedicated to pet grooming"
-//    @Published var date: Date = .init()
     
     func getNews() {
         state = .loading
@@ -30,7 +28,14 @@ class ListNewsViewModel: ObservableObject {
                 let netError = NetworkingError(response)
                 self.state = .failed(error: netError)
             }, receiveValue: { response in
-                self.news = response.articles ?? []
+                let objects = response.articles.flatMap { $0.map { NewsModel(author: $0.author,
+                                                                             title: $0.title,
+                                                                             description: $0.description,
+                                                                             url: $0.url,
+                                                                             urlToImage: $0.urlToImage,
+                                                                             publishedAt: formatDate(from: $0.publishedAt ?? ""),
+                                                                             content: $0.content) } }
+                self.news = objects ?? []
                 self.state = .success
             })
             .store(in: &cancellables)
