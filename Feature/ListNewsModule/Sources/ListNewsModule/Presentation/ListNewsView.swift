@@ -17,7 +17,6 @@ public struct ListNewsView: View {
     public init() {}
     
     public var body: some View {
-        
         SkeletonList(with: viewModel.news, quantity: 10) { loading, item in
             VStack {
                 if let pathImage = item?.urlToImage, !pathImage.isEmpty {
@@ -34,7 +33,6 @@ public struct ListNewsView: View {
                     }
                     .frame(height: 300)
                 }
-                    
                 
                 Text(item?.title ?? "")
                     .skeleton(with: loading, animation: .pulse(), shape: .rectangle)
@@ -62,14 +60,18 @@ public struct ListNewsView: View {
                     .frame(maxWidth: .infinity, alignment: .center)
                     .padding(EdgeInsets(top: 0, leading: 8, bottom: 8, trailing: 8))
             }
-            
-            .contentShape(Rectangle())
+            .onAppear {
+                if let lastIndex = viewModel.news.lastIndex(where: { $0.id == item?.id }), lastIndex == viewModel.news.count - 2 {
+                    viewModel.getNews()
+                }
+            }
             .onTapGesture {
                 if let news = item {
                     router.navigate(.detail(newsModel: news))
                 }
             }
         }
+        
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text("News")
@@ -85,7 +87,3 @@ public struct ListNewsView: View {
         }
     }
 }
-
-//#Preview {
-//    ListNewsView()
-//}

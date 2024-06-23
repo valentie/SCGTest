@@ -16,7 +16,7 @@ class ListNewsViewModel: ObservableObject {
     
     @Published var state: CoreModule.ViewState = .none
     @Published var news: [NewsModel] = .init()
-    @Published var page: Int = 0
+    @Published var page: Int = 1
     
     func getNews() {
         state = .loading
@@ -35,7 +35,8 @@ class ListNewsViewModel: ObservableObject {
                                                                              urlToImage: $0.urlToImage,
                                                                              publishedAt: formatDate(from: $0.publishedAt ?? ""),
                                                                              content: $0.content) } }
-                self.news = objects ?? []
+                self.news.append(contentsOf: objects ?? [])
+                self.page += 1
                 self.state = .success
             })
             .store(in: &cancellables)
