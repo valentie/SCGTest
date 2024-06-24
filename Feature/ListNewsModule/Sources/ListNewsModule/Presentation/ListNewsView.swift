@@ -13,65 +13,47 @@ import SkeletonUI
 public struct ListNewsView: View {
     @Environment(\.listNewsRouter) private var router: ListNewsRouterLogic
     @StateObject var viewModel = ListNewsViewModel()
+    @State private var showAlert = false
     
     public init() {}
     
     public var body: some View {
-        SkeletonList(with: viewModel.news, quantity: 10) { loading, item in
-            VStack {
-                if let pathImage = item?.urlToImage, !pathImage.isEmpty {
-                    GeometryReader { geometry in
-                        KFImage(URL(string: item?.urlToImage ?? ""))
-                            .placeholder {
-                                SkeletonImageView()
-                            }
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: geometry.size.width, height: 300)
-                            .cornerRadius(8)
-                            .clipped()
+        VStack {
+            switch viewModel.state {
+            case .loading:
+                SkeletonList(with: viewModel.news, quantity: 10) { loading, item in
+                    NewsItemView(item: item, loading: loading)
+                }
+            case .success:
+                SkeletonList(with: viewModel.news, quantity: 10) { loading, item in
+                    VStack {
+                        NewsItemView(item: item, loading: false)
                     }
-                    .frame(height: 300)
+                    .onAppear {
+                        if let lastIndex = viewModel.news.lastIndex(where: { $0.id == item?.id }), lastIndex == viewModel.news.count - 2 {
+                            viewModel.getNews(more: true)
+                        }
+                    }
+                    .onTapGesture {
+                        if let news = item {
+                            router.navigate(.detail(newsModel: news))
+                        }
+                    }
                 }
-                
-                Text(item?.title ?? "")
-                    .skeleton(with: loading, animation: .pulse(), shape: .rectangle)
-                    .lineLimit(1)
-                    .foregroundColor(.mint)
-                    .bold()
-                    .font(.system(size: 16))
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .padding(EdgeInsets(top: 8, leading: 8, bottom: 0, trailing: 8))
-                
-                if let desc = item?.description, !desc.isEmpty {
-                    Text(desc)
-                        .skeleton(with: loading, animation: .pulse(), shape: .rectangle)
-                        .lineLimit(6)
-                        .font(.system(size: 14))
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .padding(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8))
-                }
-                
-                Text(item?.publishedAt ?? "")
-                    .skeleton(with: loading, animation: .pulse(), shape: .rectangle)
-                    .lineLimit(1)
-                    .foregroundColor(.gray)
-                    .font(.system(size: 12))
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .padding(EdgeInsets(top: 0, leading: 8, bottom: 8, trailing: 8))
-            }
-            .onAppear {
-                if let lastIndex = viewModel.news.lastIndex(where: { $0.id == item?.id }), lastIndex == viewModel.news.count - 2 {
-                    viewModel.getNews()
-                }
-            }
-            .onTapGesture {
-                if let news = item {
-                    router.navigate(.detail(newsModel: news))
-                }
+            case .failed:
+                Text("Failed to load news.")
+                    .foregroundColor(.red)
+            case .none:
+                EmptyView()
             }
         }
-        
+        .alert(isPresented: $viewModel.showAlert) {
+            if case .failed(let error) = viewModel.state {
+                return Alert(title: Text("Error"), message: Text(error.getLocalizedDescription()), dismissButton: .default(Text("OK")))
+            } else {
+                return Alert(title: Text("Error"), message: Text("Unknown error"), dismissButton: .default(Text("OK")))
+            }
+        }
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text("News")

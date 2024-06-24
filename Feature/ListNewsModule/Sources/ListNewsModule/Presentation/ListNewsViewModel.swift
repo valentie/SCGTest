@@ -14,12 +14,24 @@ class ListNewsViewModel: ObservableObject {
     var newsUseCases = NewsUseCases(repo: NewsRepositoryImpl(dataSource: NewsDataImpl()))
     var cancellables = Set<AnyCancellable>()
     
-    @Published var state: CoreModule.ViewState = .none
+    @Published var state: CoreModule.ViewState = .none{
+        didSet {
+            if case .failed(_) = state {
+                showAlert = true
+            } else {
+                showAlert = false
+            }
+        }
+    }
+    @Published var showAlert: Bool = false
+    
     @Published var news: [NewsModel] = .init()
     @Published var page: Int = 1
     
-    func getNews() {
-        state = .loading
+    func getNews(more: Bool = false) {
+        if !more {
+            state = .loading
+        }
         newsUseCases.getNews(page: page)
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { completion in
