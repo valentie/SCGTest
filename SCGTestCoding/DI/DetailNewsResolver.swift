@@ -12,8 +12,11 @@ import DetailNewsModule
 struct DetailNewsResolver {
     func resolveView(newsNode: DetailNewsNode) -> some View {
         let detailNewsView = DetailNewsView()
-        let viewModel = DetailNewsViewModel(articleId: newsNode.titleText)
-        
+        let viewModel = DetailNewsViewModel(titleText: newsNode.titleText,
+                                            descriptionText: newsNode.descriptionText,
+                                            urlToImage: newsNode.urlToImage,
+                                            publishedAt: newsNode.publishedAt,
+                                            contentText: newsNode.contentText)
         return detailNewsView
             .environmentObject(viewModel)
     }

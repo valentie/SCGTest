@@ -35,7 +35,7 @@ extension NewsServices: TargetType {
     var task: Moya.Task {
         switch self {
         case let .getNews(page):
-            let param = ["country": "th",
+            let param = ["country": "us",
                          "category": "business",
                          "pageSize": 10,
                          "page": page,

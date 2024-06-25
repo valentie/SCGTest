@@ -6,20 +6,31 @@
 //
 
 import Foundation
+import CoreModule
 
 @MainActor
 public final class DetailNewsViewModel: ObservableObject {
     // MARK: - Instance properties
     
     // MARK: - Observed properties
-    
-    @Published public var articleId: String = ""
-    
+    @Published public var titleText: String = ""
+    @Published public var descriptionText: String = ""
+    @Published public var urlToImage: String = ""
+    @Published public var publishedAt: String = ""
+    @Published public var contentText: String = ""
     // MARK: - Lifecycle
     
     public init(
-        articleId: String = ""
+        titleText: String = "",
+        descriptionText: String = "",
+        urlToImage: String = "",
+        publishedAt: String = "",
+        contentText: String = ""
     ) {
-        self.articleId = articleId
+        self.titleText = titleText
+        self.descriptionText = descriptionText
+        self.urlToImage = urlToImage
+        self.publishedAt = formatDate(from: publishedAt) ?? ""
+        self.contentText = contentText
     }
 }

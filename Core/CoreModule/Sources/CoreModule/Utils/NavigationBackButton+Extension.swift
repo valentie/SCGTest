@@ -1,6 +1,6 @@
 //
 //  NavigationBackButton+Extension.swift
-//
+//  
 //
 //  Created by Valentie on 23/6/2567 BE.
 //
@@ -34,7 +34,7 @@ struct NavigationBackButton: ViewModifier {
 }
 
 extension View {
-    func navigationBackButton(color: UIColor, text: String? = nil) -> some View {
+    public func navigationBackButton(color: UIColor, text: String? = nil) -> some View {
         modifier(NavigationBackButton(color: color, text: text))
     }
 }

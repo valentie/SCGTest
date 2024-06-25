@@ -13,12 +13,6 @@ extension NavigationStore: DetailNewsRouterLogic {
         switch route {
         case .back:
             _ = navigationPath.popLast()
-//        case let .detail(titleText, descriptionText, urlToImage, publishedAt, contentText):
-//            navigationPath.append(DetailNode(titleText: titleText,
-//                                             descriptionText: descriptionText,
-//                                             urlToImage: urlToImage,
-//                                             publishedAt: publishedAt,
-//                                             contentText: contentText))
         }
     }
 }

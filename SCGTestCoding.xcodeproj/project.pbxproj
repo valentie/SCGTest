@@ -25,6 +25,7 @@
 		EF1A78572C253714007BBA6E /* DetailNewsResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1A78562C253714007BBA6E /* DetailNewsResolver.swift */; };
 		EF1A78592C2537F5007BBA6E /* DetailNewsModule in Frameworks */ = {isa = PBXBuildFile; productRef = EF1A78582C2537F5007BBA6E /* DetailNewsModule */; };
 		EF1A785B2C25390D007BBA6E /* NavigationStore+DetailNewsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1A785A2C25390D007BBA6E /* NavigationStore+DetailNewsRouter.swift */; };
+		EFA42B8D2C277B11008560A5 /* CoreModule in Frameworks */ = {isa = PBXBuildFile; productRef = EFA42B8C2C277B11008560A5 /* CoreModule */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 		EF1A78562C253714007BBA6E /* DetailNewsResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailNewsResolver.swift; sourceTree = "<group>"; };
 		EF1A785A2C25390D007BBA6E /* NavigationStore+DetailNewsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NavigationStore+DetailNewsRouter.swift"; sourceTree = "<group>"; };
 		EFA42B8A2C2762A4008560A5 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Package.swift; path = Core/CoreModule/Package.swift; sourceTree = "<group>"; };
+		EFA42B8B2C277B07008560A5 /* CoreModule */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = CoreModule; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +77,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF1A78592C2537F5007BBA6E /* DetailNewsModule in Frameworks */,
+				EFA42B8D2C277B11008560A5 /* CoreModule in Frameworks */,
 				EF1A78522C246C18007BBA6E /* ListNewsModule in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -99,6 +102,7 @@
 		EF1A77F52C245740007BBA6E = {
 			isa = PBXGroup;
 			children = (
+				EFA42B8E2C277B21008560A5 /* Core */,
 				EF1A782C2C245979007BBA6E /* Feature */,
 				EF1A78002C245740007BBA6E /* SCGTestCoding */,
 				EF1A78112C245741007BBA6E /* SCGTestCodingTests */,
@@ -228,6 +232,14 @@
 			path = Nodes;
 			sourceTree = "<group>";
 		};
+		EFA42B8E2C277B21008560A5 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				EFA42B8B2C277B07008560A5 /* CoreModule */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -247,6 +259,7 @@
 			packageProductDependencies = (
 				EF1A78512C246C18007BBA6E /* ListNewsModule */,
 				EF1A78582C2537F5007BBA6E /* DetailNewsModule */,
+				EFA42B8C2C277B11008560A5 /* CoreModule */,
 			);
 			productName = SCGTestCoding;
 			productReference = EF1A77FE2C245740007BBA6E /* SCGTestCoding.app */;
@@ -713,6 +726,10 @@
 		EF1A78582C2537F5007BBA6E /* DetailNewsModule */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = DetailNewsModule;
+		};
+		EFA42B8C2C277B11008560A5 /* CoreModule */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = CoreModule;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
